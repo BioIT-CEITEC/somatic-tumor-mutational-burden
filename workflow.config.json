@@ -1,0 +1,89 @@
+{
+  "workflow_description": {
+    "name":"somatic_varlociraptor_TMB",
+    "version": 1.0,
+    "label":"somatic_varlociraptor_TMB",
+    "type":"somatic_varlociraptor_TMB",
+    "inputs":[
+      "mapped/{sample}.bam*",
+      "variant_calls/{sample}/mutect2/MuTect2.vcf"
+    ],
+    "outputs":[
+      "TMB_by_varlociraptor/*",
+      "varlociraptor/*"
+    ],
+    "report_index": "",
+    "reports":[
+      ""
+    ]
+  },
+  "general_params": [
+    "entity_name",
+    "sample_name"
+  ],
+  "requested_params": [
+    "reference",
+    "lib_ROI"
+  ],
+  "gui_params" : {
+    "primary": {
+      "varlociraptor_max_depth": {
+        "label": "Max depth of sequencing",
+        "type": "int",
+        "default": 200
+      },
+      "exome_genome_size": {
+        "label": "Result variant table format ",
+        "type": "int",
+        "default": 3.5e7,
+        "list": {
+          "35 Mbp": 3.5e7,
+          "Kapa HyperExome": 3.5e7,
+          "Illumina TruSeq" : 3.5e7
+        }
+      },
+      "tumor_normal_paired": {
+        "label": "Samples are tumor-normal paired",
+        "type": "bool",
+        "default": true
+      }
+    },
+    "detailed": {
+    },
+    "samples": {
+      "donor": {
+        "label": "Patient ID",
+        "type": "string",
+        "default": "",
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "tumor_normal_paired": true
+            }
+          }
+        }
+      },
+      "tumor_normal": {
+        "label": "Tumor/normal",
+        "type": "enum",
+        "default": "normal",
+        "list": {
+          "tumor": "tumor",
+          "normal": "normal"
+        },
+        "conditions": {
+          "relevance": {
+            "operand": "equal",
+            "negation": false,
+            "values": {
+              "tumor_normal_paired": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
